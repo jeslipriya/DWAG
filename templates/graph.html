@@ -20,5 +20,13 @@
 <script>
     // Properly pass the scores data as JSON
     window.userProductivityScores = JSON.parse('{{ scores|tojson|safe }}');
+    
+    // Function to update graph from other parts of the application
+    function updateGraphScore(category, score) {
+        if (window.userProductivityScores && category in window.userProductivityScores) {
+            window.userProductivityScores[category] = score;
+            drawHexagonGraph();
+        }
+    }
 </script>
 {% endblock %}
