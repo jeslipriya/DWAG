@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    drawHexagonGraph();
+});
+
+function drawHexagonGraph() {
     const canvas = document.getElementById('hexagonCanvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
@@ -8,14 +12,17 @@ document.addEventListener('DOMContentLoaded', function() {
         const sides = 6;
         const angle = (2 * Math.PI) / sides;
         
-        // Safely get scores or use defaults
+        // Clear canvas
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        // Default scores set to 0
         const defaultScores = {
-            'PHYSICAL': 50,
-            'AMBITION': 50,
-            'SOCIAL': 50,
-            'INTELLECT': 50,
-            'DISCIPLINE': 50,
-            'MENTAL': 50
+            'PHYSICAL': 0,
+            'AMBITION': 0,
+            'SOCIAL': 0,
+            'INTELLECT': 0,
+            'DISCIPLINE': 0,
+            'MENTAL': 0
         };
         
         let userScores;
@@ -23,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function() {
             userScores = window.userProductivityScores || defaultScores;
             // Ensure all categories exist
             Object.keys(defaultScores).forEach(key => {
-                if (!userScores[key]) {
+                if (!(key in userScores)) {
                     userScores[key] = defaultScores[key];
                 }
             });
@@ -32,7 +39,6 @@ document.addEventListener('DOMContentLoaded', function() {
             userScores = defaultScores;
         }
         
-        // Rest of your drawing code remains the same...
         const colors = {
             'PHYSICAL': '#FF6B6B',
             'AMBITION': '#4ECDC4',
@@ -97,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         for (let i = 0; i < categories.length; i++) {
             const category = categories[i];
-            const score = userScores[category] || 50;
+            const score = Math.min(100, Math.max(0, userScores[category] || 0)); // Ensure score is between 0-100
             const scaledRadius = radius * (score / 100);
             
             const x = centerX + scaledRadius * Math.cos(angle * i - Math.PI / 2);
@@ -139,7 +145,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Draw data points as circles
         for (let i = 0; i < categories.length; i++) {
             const category = categories[i];
-            const score = userScores[category] || 50;
+            const score = Math.min(100, Math.max(0, userScores[category] || 0)); // Ensure score is between 0-100
             const scaledRadius = radius * (score / 100);
             
             const x = centerX + scaledRadius * Math.cos(angle * i - Math.PI / 2);
@@ -154,4 +160,13 @@ document.addEventListener('DOMContentLoaded', function() {
             ctx.stroke();
         }
     }
-});
+}
+
+// Make the function available globally
+window.updateGraphScore = function(category, score) {
+    if (window.userProductivityScores && category in window.userProductivityScores) {
+        // Ensure score is between 0-100
+        window.userProductivityScores[category] = Math.min(100, Math.max(0, score));
+        drawHexagonGraph();
+    }
+};
