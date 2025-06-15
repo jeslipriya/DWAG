@@ -1,6 +1,3 @@
-script.js
-
-
 document.addEventListener('DOMContentLoaded', function() {
     const canvas = document.getElementById('hexagonCanvas');
     if (canvas) {
