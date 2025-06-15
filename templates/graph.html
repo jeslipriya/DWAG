@@ -1,25 +1,43 @@
 {% extends "base.html" %}
+
 {% block title %}Productivity Graph{% endblock %}
 
 {% block content %}
 <div class="graph-container">
-    <h1>Your Productivity Graph</h1>
+    <h1>Productivity Graph</h1>
     <div class="hexagon-container">
-        <canvas id="hexagonCanvas" width="600" height="600"></canvas>
+        <canvas id="hexagonChart" width="500" height="500"></canvas>
     </div>
     <div class="legend">
-        <div class="legend-item"><span class="color-physical"></span> PHYSICAL</div>
-        <div class="legend-item"><span class="color-ambition"></span> AMBITION</div>
-        <div class="legend-item"><span class="color-social"></span> SOCIAL</div>
-        <div class="legend-item"><span class="color-intellect"></span> INTELLECT</div>
-        <div class="legend-item"><span class="color-discipline"></span> DISCIPLINE</div>
-        <div class="legend-item"><span class="color-mental"></span> MENTAL</div>
+        <div class="legend-item">
+            <span class="color-physical"></span>
+            <span>PHYSICAL</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-ambition"></span>
+            <span>AMBITION</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-social"></span>
+            <span>SOCIAL</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-intellect"></span>
+            <span>INTELLECT</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-discipline"></span>
+            <span>DISCIPLINE</span>
+        </div>
+        <div class="legend-item">
+            <span class="color-mental"></span>
+            <span>MENTAL</span>
+        </div>
     </div>
 </div>
+{% endblock %}
 
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
-<script>
-    // Initial load
-    document.addEventListener('DOMContentLoaded', fetchAndUpdateGraph);
-</script>
 {% endblock %}

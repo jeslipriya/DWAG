@@ -85,17 +85,21 @@ body {
 }
 
 /* Graph Page Styles */
-.graph-container {
-    text-align: center;
-    margin-top: 2rem;
-}
-
+/* Hexagon Graph Styles */
 .hexagon-container {
-    display: flex;
-    justify-content: center;
-    margin: 3rem 0;
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 2rem auto;
+    aspect-ratio: 1/1;
 }
 
+#hexagonChart {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Legend Styles */
 .legend {
     display: flex;
     justify-content: center;
@@ -109,12 +113,13 @@ body {
     align-items: center;
     gap: 0.5rem;
     font-size: 0.9rem;
+    color: var(--text-color);
 }
 
-.legend-item span {
+.legend-item span:first-child {
     display: inline-block;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     border-radius: 50%;
 }
 
