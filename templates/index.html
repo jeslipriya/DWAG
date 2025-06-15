@@ -1,28 +1,12 @@
 {% extends "base.html" %}
-{% block title %}DWAG Productivity Tracker{% endblock %}
 
 {% block content %}
 <div class="hero">
-    <h1>Track Your Growth Across All Dimensions</h1>
-    <p class="subtitle">Balance your physical, mental, social, and professional development with our hexagonal productivity tracker.</p>
+    <h1>DWAG</h1>
+    <p>Track your daily goals and achieve your ambitions</p>
     <div class="cta-buttons">
         <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
         <a href="{{ url_for('login') }}" class="btn btn-secondary">Login</a>
-    </div>
-</div>
-
-<div class="features">
-    <div class="feature-card">
-        <h3>Hexagonal Tracking</h3>
-        <p>Visualize your progress across six key life dimensions with our unique radar chart.</p>
-    </div>
-    <div class="feature-card">
-        <h3>Task Management</h3>
-        <p>Categorize tasks to different life areas and track your completion rate.</p>
-    </div>
-    <div class="feature-card">
-        <h3>Progress Insights</h3>
-        <p>Identify which areas of your life need more attention at a glance.</p>
     </div>
 </div>
 {% endblock %}

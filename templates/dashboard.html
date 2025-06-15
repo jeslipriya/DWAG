@@ -1,61 +1,85 @@
 {% extends "base.html" %}
-{% block title %}Dashboard{% endblock %}
 
 {% block content %}
 <div class="dashboard-header">
-    <h1>Welcome, {{ user.username }}!</h1>
-    <p>Track your productivity across all dimensions of your life.</p>
-</div>
-
-<div class="dashboard-stats">
-    <div class="stat-card">
-        <h3>Total Tasks</h3>
-        <p>{{ user.tasks|length }}</p>
-    </div>
-    <div class="stat-card">
-        <h3>Completed</h3>
-        <p>{{ user.tasks|selectattr('completed')|list|length }}</p>
-    </div>
-    <div class="stat-card">
-        <h3>Completion Rate</h3>
-        <p>
-            {% if user.tasks|length > 0 %}
-                {{ (user.tasks|selectattr('completed')|list|length / user.tasks|length * 100)|round(1) }}%
-            {% else %}
-                0%
-            {% endif %}
-        </p>
+    <h2>Your Dashboard</h2>
+    <div class="date-display">
+        {{ now.strftime('%a, %b %d') | upper }}
     </div>
 </div>
 
-<div class="dashboard-actions">
-    <a href="{{ url_for('add_task') }}" class="btn btn-primary">Add New Task</a>
-    <a href="{{ url_for('view_tasks') }}" class="btn btn-secondary">View All Tasks</a>
-    <a href="{{ url_for('graph') }}" class="btn btn-tertiary">View Graph</a>
-</div>
-
-<div class="recent-tasks">
-    <h2>Recent Tasks</h2>
-    {% if user.tasks[-3:] %}
-        {% for task in user.tasks[-3:]|reverse %}
-            <div class="task-card {% if task.completed %}completed{% endif %}">
-                <div class="task-title">
-                    <span>{{ task.title }}</span>
-                    <span class="task-category category-{{ task.category.lower() }}">{{ task.category }}</span>
+<div class="dashboard-grid">
+    <div class="goals-section">
+        <div class="section-header">
+            <h3>Your Goals</h3>
+            <a href="{{ url_for('add_goal') }}" class="btn btn-small">+ Add Goal</a>
+        </div>
+        
+        <div class="goals-list">
+            {% for goal in goals %}
+            <div class="goal-card">
+                <div class="goal-category {{ goal.category.lower() }}">{{ goal.category }}</div>
+                <h4>{{ goal.title }}</h4>
+                <p>{{ goal.description }}</p>
+                <div class="goal-meta">
+                    <span>Target: {{ goal.target_date.strftime('%b %d, %Y') }}</span>
+                    <a href="{{ url_for('progress', goal_id=goal.id) }}" class="btn btn-small">View Progress</a>
                 </div>
-                <p class="task-description">{{ task.description }}</p>
-                <div class="task-footer">
-                    <span>{{ task.date_created.strftime('%b %d, %Y') }}</span>
-                    {% if not task.completed %}
-                        <a href="{{ url_for('complete_task', task_id=task.id) }}" class="btn btn-small">Mark Complete</a>
-                    {% else %}
-                        <span>Completed</span>
-                    {% endif %}
-                </div>
+                
+                <form method="POST" action="{{ url_for('add_task') }}" class="add-task-form">
+                    <input type="hidden" name="goal_id" value="{{ goal.id }}">
+                    <input type="hidden" name="date" value="{{ now.strftime('%Y-%m-%d') }}">
+                    <input type="text" name="description" placeholder="Add task..." required>
+                    <button type="submit" class="btn btn-small">Add</button>
+                </form>
             </div>
-        {% endfor %}
-    {% else %}
-        <p>No tasks yet. <a href="{{ url_for('add_task') }}">Add your first task</a> to get started!</p>
-    {% endif %}
+            {% else %}
+            <p>No goals yet. <a href="{{ url_for('add_goal') }}">Add your first goal</a></p>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <div class="tasks-section">
+        <div class="section-header">
+            <h3>Today's Tasks</h3>
+        </div>
+        
+        <div class="tasks-list">
+            {% for task in tasks %}
+            <div class="task-item {% if task.completed %}completed{% endif %}" data-task-id="{{ task.id }}">
+                <label class="checkbox-container">
+                    <input type="checkbox" {% if task.completed %}checked{% endif %} 
+                           onchange="completeTask(this)">
+                    <span class="checkmark"></span>
+                </label>
+                <span class="task-description">{{ task.description }}</span>
+                <span class="task-category {{ task.goal.category.lower() }}">{{ task.goal.category }}</span>
+            </div>
+            {% else %}
+            <p>No tasks for today. Add some tasks to your goals!</p>
+            {% endfor %}
+        </div>
+    </div>
 </div>
+
+<script>
+function completeTask(checkbox) {
+    const taskItem = checkbox.closest('.task-item');
+    const taskId = taskItem.dataset.taskId;
+    
+    fetch(`/complete_task/${taskId}`, {
+        method: 'GET'
+    })
+    .then(response => {
+        if (response.ok) {
+            taskItem.classList.toggle('completed');
+            window.location.reload();
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        checkbox.checked = !checkbox.checked;
+    });
+}
+</script>
 {% endblock %}

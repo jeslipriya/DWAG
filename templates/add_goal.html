@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Add New Goal</h2>
+    <form method="POST" action="{{ url_for('add_goal') }}">
+        <div class="form-group">
+            <label for="title">Goal Title</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="">Select a category</option>
+                <option value="PHYSICAL">PHYSICAL</option>
+                <option value="AMBITION">AMBITION</option>
+                <option value="SOCIAL">SOCIAL</option>
+                <option value="INTELLECT">INTELLECT</option>
+                <option value="DISCIPLINE">DISCIPLINE</option>
+                <option value="MENTAL">MENTAL</option>
+                <option value="CUSTOM">CUSTOM</option>
+            </select>
+        </div>
+        
+        <div class="form-group" id="custom-category-group" style="display: none;">
+            <label for="custom_category">Custom Category Name</label>
+            <input type="text" id="custom_category" name="custom_category">
+        </div>
+        
+        <div class="form-group">
+            <label for="target_date">Target Date</label>
+            <input type="date" id="target_date" name="target_date" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="3"></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Add Goal</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('category').addEventListener('change', function() {
+    const customGroup = document.getElementById('custom-category-group');
+    if (this.value === 'CUSTOM') {
+        customGroup.style.display = 'block';
+    } else {
+        customGroup.style.display = 'none';
+    }
+});
+</script>
+{% endblock %}
