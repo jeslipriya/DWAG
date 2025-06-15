@@ -162,6 +162,24 @@ function drawHexagonGraph() {
     }
 }
 
+async function fetchAndUpdateGraph() {
+    try {
+        const response = await fetch('/get_scores');
+        if (response.ok) {
+            const scores = await response.json();
+            window.userProductivityScores = scores;
+            drawHexagonGraph();
+        }
+    } catch (error) {
+        console.error('Error fetching scores:', error);
+    }
+}
+
+// Call this after marking a task complete
+window.updateGraphScore = async function(category) {
+    await fetchAndUpdateGraph();
+};
+
 // Make the function available globally
 window.updateGraphScore = function(category, score) {
     if (window.userProductivityScores && category in window.userProductivityScores) {
@@ -170,3 +188,15 @@ window.updateGraphScore = function(category, score) {
         drawHexagonGraph();
     }
 };
+
+// Example in your task completion code
+document.querySelectorAll('.complete-task-btn').forEach(btn => {
+    btn.addEventListener('click', async function() {
+        const taskId = this.dataset.taskId;
+        const response = await fetch(`/complete_task/${taskId}`);
+        if (response.ok) {
+            await fetchAndUpdateGraph();
+            // Refresh task list or other UI elements as needed
+        }
+    });
+});

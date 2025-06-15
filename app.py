@@ -1,4 +1,4 @@
-from flask import Flask, render_template, redirect, url_for, request, flash, session
+from flask import Flask, render_template, redirect, url_for, request, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -135,6 +135,22 @@ def graph():
         scores[category] = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
     
     return render_template('graph.html', scores=json.dumps(scores))
+
+
+@app.route('/get_scores')
+def get_scores():
+    if 'user_id' not in session:
+        return jsonify({'error': 'Not logged in'}), 401
+    
+    categories = ['PHYSICAL', 'AMBITION', 'SOCIAL', 'INTELLECT', 'DISCIPLINE', 'MENTAL']
+    scores = {}
+    
+    for category in categories:
+        total_tasks = Task.query.filter_by(user_id=session['user_id'], category=category).count()
+        completed_tasks = Task.query.filter_by(user_id=session['user_id'], category=category, completed=True).count()
+        scores[category] = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+    
+    return jsonify(scores)
 
 @app.route('/logout')
 def logout():
