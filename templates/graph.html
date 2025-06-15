@@ -1,31 +1,25 @@
-@app.route('/graph')
-def graph():
-    if 'user_id' not in session:
-        return redirect(url_for('login'))
-    
-    # Calculate scores for each category
-    categories = ['PHYSICAL', 'AMBITION', 'SOCIAL', 'INTELLECT', 'DISCIPLINE', 'MENTAL']
-    scores = {}
-    
-    for category in categories:
-        total_tasks = Task.query.filter_by(user_id=session['user_id'], category=category).count()
-        completed_tasks = Task.query.filter_by(user_id=session['user_id'], category=category, completed=True).count()
-        scores[category] = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-    
-    return render_template('graph.html', scores=json.dumps(scores))
+{% extends "base.html" %}
+{% block title %}Productivity Graph{% endblock %}
 
+{% block content %}
+<div class="graph-container">
+    <h1>Your Productivity Graph</h1>
+    <div class="hexagon-container">
+        <canvas id="hexagonCanvas" width="600" height="600"></canvas>
+    </div>
+    <div class="legend">
+        <div class="legend-item"><span class="color-physical"></span> PHYSICAL</div>
+        <div class="legend-item"><span class="color-ambition"></span> AMBITION</div>
+        <div class="legend-item"><span class="color-social"></span> SOCIAL</div>
+        <div class="legend-item"><span class="color-intellect"></span> INTELLECT</div>
+        <div class="legend-item"><span class="color-discipline"></span> DISCIPLINE</div>
+        <div class="legend-item"><span class="color-mental"></span> MENTAL</div>
+    </div>
+</div>
 
-@app.route('/get_scores')
-def get_scores():
-    if 'user_id' not in session:
-        return jsonify({'error': 'Not logged in'}), 401
-    
-    categories = ['PHYSICAL', 'AMBITION', 'SOCIAL', 'INTELLECT', 'DISCIPLINE', 'MENTAL']
-    scores = {}
-    
-    for category in categories:
-        total_tasks = Task.query.filter_by(user_id=session['user_id'], category=category).count()
-        completed_tasks = Task.query.filter_by(user_id=session['user_id'], category=category, completed=True).count()
-        scores[category] = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-    
-    return jsonify(scores)
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+<script>
+    // Initial load
+    document.addEventListener('DOMContentLoaded', fetchAndUpdateGraph);
+</script>
+{% endblock %}

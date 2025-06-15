@@ -125,17 +125,7 @@ def graph():
     if 'user_id' not in session:
         return redirect(url_for('login'))
     
-    # Calculate scores for each category
-    categories = ['PHYSICAL', 'AMBITION', 'SOCIAL', 'INTELLECT', 'DISCIPLINE', 'MENTAL']
-    scores = {}
-    
-    for category in categories:
-        total_tasks = Task.query.filter_by(user_id=session['user_id'], category=category).count()
-        completed_tasks = Task.query.filter_by(user_id=session['user_id'], category=category, completed=True).count()
-        scores[category] = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-    
-    return render_template('graph.html', scores=json.dumps(scores))
-
+    return render_template('graph.html')
 
 @app.route('/get_scores')
 def get_scores():
@@ -146,12 +136,19 @@ def get_scores():
     scores = {}
     
     for category in categories:
-        total_tasks = Task.query.filter_by(user_id=session['user_id'], category=category).count()
-        completed_tasks = Task.query.filter_by(user_id=session['user_id'], category=category, completed=True).count()
+        total_tasks = Task.query.filter_by(
+            user_id=session['user_id'], 
+            category=category
+        ).count()
+        completed_tasks = Task.query.filter_by(
+            user_id=session['user_id'], 
+            category=category, 
+            completed=True
+        ).count()
         scores[category] = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
     
     return jsonify(scores)
-
+    
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
