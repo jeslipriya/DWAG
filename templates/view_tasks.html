@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<div class="tasks-header">
+    <h1>My Tasks</h1>
+    <a href="{{ url_for('add_task') }}" class="btn btn-primary">Add Task</a>
+</div>
+
+<div class="task-filters">
+    <a href="?filter=all" class="filter-btn {% if request.args.get('filter') == 'all' or not request.args.get('filter') %}active{% endif %}">All</a>
+    <a href="?filter=active" class="filter-btn {% if request.args.get('filter') == 'active' %}active{% endif %}">Active</a>
+    <a href="?filter=completed" class="filter-btn {% if request.args.get('filter') == 'completed' %}active{% endif %}">Completed</a>
+</div>
+
+<div class="task-list">
+    {% if tasks %}
+        {% for task in tasks %}
+            <div class="task-card {% if task.completed %}completed{% endif %}">
+                <div class="task-title">
+                    <span>{{ task.title }}</span>
+                    <span class="task-category category-{{ task.category.lower() }}">{{ task.category }}</span>
+                </div>
+                <p class="task-description">{{ task.description }}</p>
+                <div class="task-footer">
+                    <span>{{ task.date_created.strftime('%b %d, %Y') }}</span>
+                    {% if not task.completed %}
+                        <a href="{{ url_for('complete_task', task_id=task.id) }}" class="btn btn-small">Mark Complete</a>
+                    {% else %}
+                        <span>Completed on {{ task.date_created.strftime('%b %d, %Y') }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No tasks found. <a href="{{ url_for('add_task') }}">Add your first task</a> to get started!</p>
+    {% endif %}
+</div>
+{% endblock %}
