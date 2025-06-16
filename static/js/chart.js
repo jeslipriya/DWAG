@@ -1,7 +1,8 @@
 function initRadarChart(categoryStats) {
     const ctx = document.getElementById('radarChart').getContext('2d');
     
-    const categories = Object.keys(categoryStats);
+    // Order the categories to match your desired layout
+    const categories = ['PHYSICAL', 'AMBITION', 'SOCIAL', 'INTELLECT', 'DISCIPLINE', 'MENTAL'];
     const dataValues = categories.map(cat => categoryStats[cat].percentage);
     
     const backgroundColors = categories.map(category => {
@@ -33,14 +34,15 @@ function initRadarChart(categoryStats) {
         data: {
             labels: categories,
             datasets: [{
-                label: 'Current Progress',
+                label: 'Progress',
                 data: dataValues,
                 backgroundColor: backgroundColors,
                 borderColor: borderColors,
                 borderWidth: 2,
                 pointBackgroundColor: borderColors,
                 pointRadius: 4,
-                pointHoverRadius: 6
+                pointHoverRadius: 6,
+                fill: true
             }]
         },
         options: {
@@ -49,19 +51,23 @@ function initRadarChart(categoryStats) {
             scales: {
                 r: {
                     angleLines: {
-                        color: 'rgba(255, 255, 255, 0.1)'
+                        color: 'rgba(255, 255, 255, 0.1)',
+                        lineWidth: 1
                     },
                     grid: {
-                        color: 'rgba(255, 255, 255, 0.1)'
+                        color: 'rgba(255, 255, 255, 0.1)',
+                        circular: true
                     },
                     pointLabels: {
                         color: '#f0f0f0',
                         font: {
-                            size: 12,
+                            size: 14,
                             weight: 'bold'
-                        }
+                        },
+                        backdropColor: 'transparent'
                     },
                     ticks: {
+                        display: true,
                         backdropColor: 'transparent',
                         color: 'rgba(255, 255, 255, 0.5)',
                         beginAtZero: true,
@@ -70,7 +76,9 @@ function initRadarChart(categoryStats) {
                         callback: function(value) {
                             return value + '%';
                         }
-                    }
+                    },
+                    suggestedMin: 0,
+                    suggestedMax: 100
                 }
             },
             plugins: {
@@ -80,15 +88,14 @@ function initRadarChart(categoryStats) {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            const category = context.label;
-                            const stats = categoryStats[category];
-                            return [
-                                `Progress: ${context.raw}%`,
-                                `Completed: ${stats.completed}/${stats.total}`,
-                                `Streak: ${stats.streak} days`
-                            ];
+                            return context.raw + '%';
                         }
                     }
+                }
+            },
+            elements: {
+                line: {
+                    tension: 0.1
                 }
             }
         }

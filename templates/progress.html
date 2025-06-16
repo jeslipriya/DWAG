@@ -20,20 +20,9 @@
 <div class="progress-container">
     <h1>Your Warrior Progress</h1>
     
-    <div class="time-selector">
-        <button class="btn time-btn active" data-period="week">This Week</button>
-        <button class="btn time-btn" data-period="month">This Month</button>
-        <button class="btn time-btn" data-period="all">All Time</button>
-    </div>
-    
-    <div class="chart-section">
         <div class="radar-chart-container">
             <canvas id="radarChart"></canvas>
         </div>
-        <div class="line-chart-container">
-            <canvas id="trendChart"></canvas>
-        </div>
-    </div>
     
     <div class="category-stats">
         {% for category, stats in category_stats.items() %}
