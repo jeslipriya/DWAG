@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="form-container">
+    <h1>Add New Task</h1>
+    
+    <form method="POST" action="{{ url_for('add_task') }}">
+        <div class="form-group">
+            <label for="title">Task Title</label>
+            <input type="text" id="title" name="title" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category" required>
+                <option value="PHYSICAL">PHYSICAL</option>
+                <option value="AMBITION">AMBITION</option>
+                <option value="SOCIAL">SOCIAL</option>
+                <option value="INTELLECT">INTELLECT</option>
+                <option value="DISCIPLINE">DISCIPLINE</option>
+                <option value="MENTAL">MENTAL</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="repeat_days">Repeat for how many days?</label>
+            <input type="number" id="repeat_days" name="repeat_days" min="1" value="7" required>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn">Add Task</button>
+            <a href="{{ url_for('dashboard') }}" class="btn secondary">Cancel</a>
+        </div>
+    </form>
+    
+    <div class="task-templates">
+        <h3>Task Templates</h3>
+        <div class="template-categories">
+            <div class="template-category physical">
+                <h4>PHYSICAL</h4>
+                <ul>
+                    <li>30 min workout</li>
+                    <li>1 mile run</li>
+                    <li>50 pushups</li>
+                </ul>
+            </div>
+            <div class="template-category ambition">
+                <h4>AMBITION</h4>
+                <ul>
+                    <li>Work on side project</li>
+                    <li>Learn a new skill</li>
+                    <li>Set quarterly goals</li>
+                </ul>
+            </div>
+            <div class="template-category social">
+                <h4>SOCIAL</h4>
+                <ul>
+                    <li>Call a family member</li>
+                    <li>Meet a friend</li>
+                    <li>Network with 1 person</li>
+                </ul>
+            </div>
+            <div class="template-category intellect">
+                <h4>INTELLECT</h4>
+                <ul>
+                    <li>Read 20 pages</li>
+                    <li>Watch educational video</li>
+                    <li>Solve a puzzle</li>
+                </ul>
+            </div>
+            <div class="template-category discipline">
+                <h4>DISCIPLINE</h4>
+                <ul>
+                    <li>Wake up early</li>
+                    <li>Follow a proper diet</li>
+                    <li>No social media</li>
+                </ul>
+            </div>
+            <div class="template-category mental">
+                <h4>MENTAL</h4>
+                <ul>
+                    <li>10 min meditation</li>
+                    <li>Journaling</li>
+                    <li>Gratitude practice</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
