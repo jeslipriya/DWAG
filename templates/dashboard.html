@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard">
+    <div class="date-header">
+        <h1>{{ now.strftime('%a.%m.%d').upper() }} [THE WARRIOR]</h1>
+        <div class="calendar">
+            <!-- Calendar grid would be implemented here -->
+            <!-- This is a simplified version -->
+            <div class="calendar-header">
+                {% for day in ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'] %}
+                    <div>{{ day }}</div>
+                {% endfor %}
+            </div>
+            <div class="calendar-days">
+                {% for day in range(1, 32) %}
+                    <div {% if day == now.day %}class="today"{% endif %}>{{ day }}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="daily-tasks">
+        <h2>DAILY TASKS:</h2>
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task-item {% if today_completions.get(task.id, False) %}completed{% endif %}">
+                    <form action="{{ url_for('complete_task', task_id=task.id) }}" method="post" class="task-form">
+                        <button type="submit" class="task-checkbox">
+                            <span class="checkmark">✓</span>
+                        </button>
+                        <span class="task-title">{{ task.title }}</span>
+                        <span class="task-category {{ task.category.lower() }}">{{ task.category }}</span>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="quick-add">
+        <a href="{{ url_for('add_task') }}" class="btn">+ Add New Task</a>
+        <a href="{{ url_for('progress') }}" class="btn secondary">View Progress</a>
+    </div>
+</div>
+{% endblock %}
