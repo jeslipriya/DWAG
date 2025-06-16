@@ -2,7 +2,7 @@ function initRadarChart(categoryStats) {
     const ctx = document.getElementById('radarChart').getContext('2d');
     
     const categories = Object.keys(categoryStats);
-    const dataValues = Object.values(categoryStats);
+    const dataValues = categories.map(cat => categoryStats[cat].percentage);
     
     const backgroundColors = categories.map(category => {
         switch(category) {
@@ -33,7 +33,7 @@ function initRadarChart(categoryStats) {
         data: {
             labels: categories,
             datasets: [{
-                label: 'Progress',
+                label: 'Current Progress',
                 data: dataValues,
                 backgroundColor: backgroundColors,
                 borderColor: borderColors,
@@ -66,7 +66,10 @@ function initRadarChart(categoryStats) {
                         color: 'rgba(255, 255, 255, 0.5)',
                         beginAtZero: true,
                         max: 100,
-                        stepSize: 20
+                        stepSize: 20,
+                        callback: function(value) {
+                            return value + '%';
+                        }
                     }
                 }
             },
@@ -77,7 +80,13 @@ function initRadarChart(categoryStats) {
                 tooltip: {
                     callbacks: {
                         label: function(context) {
-                            return context.raw + '%';
+                            const category = context.label;
+                            const stats = categoryStats[category];
+                            return [
+                                `Progress: ${context.raw}%`,
+                                `Completed: ${stats.completed}/${stats.total}`,
+                                `Streak: ${stats.streak} days`
+                            ];
                         }
                     }
                 }
