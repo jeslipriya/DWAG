@@ -6,12 +6,8 @@
 <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const progressData = {
-            categoryStats: {{ category_stats|tojson }},
-            trendData: {{ trend_data|tojson }},
-            taskHistory: {{ task_history|tojson }}
-        };
-        initProgressCharts(progressData);
+        const categoryStats = {{ category_stats|tojson }};
+        initRadarChart(categoryStats);
     });
 </script>
 {% endblock %}
