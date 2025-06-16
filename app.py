@@ -170,7 +170,7 @@ def progress():
     user_id = session['user_id']
     categories = ['PHYSICAL', 'AMBITION', 'SOCIAL', 'INTELLECT', 'DISCIPLINE', 'MENTAL']
     
-    # Calculate completion percentages for each category
+    # Calculate current progress for each category
     category_stats = {}
     for category in categories:
         # Total tasks in this category
@@ -186,10 +186,120 @@ def progress():
             Completion.completed == True
         ).count()
         
+        # Calculate current streak for this category
+        streak = calculate_streak(user_id, category)
+        
         percentage = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
-        category_stats[category] = round(percentage)
+        category_stats[category] = {
+            'percentage': round(percentage),
+            'completed': completed_tasks,
+            'total': total_tasks,
+            'streak': streak
+        }
     
-    return render_template('progress.html', category_stats=category_stats)
+    # Get trend data for line chart
+    trend_data = get_trend_data(user_id)
+    
+    # Get recent task history
+    task_history = get_task_history(user_id)
+    
+    return render_template(
+        'progress.html',
+        category_stats=category_stats,
+        trend_data=trend_data,
+        task_history=task_history
+    )
+
+def calculate_streak(user_id, category):
+    # Get all completions for this category ordered by date
+    completions = db.session.query(Completion.date, Completion.completed)\
+        .join(Task)\
+        .filter(
+            Task.user_id == user_id,
+            Task.category == category
+        )\
+        .order_by(Completion.date.desc())\
+        .all()
+    
+    streak = 0
+    today = datetime.utcnow().date()
+    
+    for i, (date, completed) in enumerate(completions):
+        if date.date() == today - timedelta(days=i):
+            if completed:
+                streak += 1
+            else:
+                break
+        else:
+            break
+    
+    return streak
+
+def get_trend_data(user_id):
+    # Get data for last 14 days
+    dates = []
+    for i in range(14):
+        date = (datetime.utcnow() - timedelta(days=13 - i)).date()
+        dates.append(date.strftime('%b %d'))
+    
+    categories = ['PHYSICAL', 'AMBITION', 'SOCIAL', 'INTELLECT', 'DISCIPLINE', 'MENTAL']
+    trend_data = {
+        'dates': dates,
+        'PHYSICAL': {'values': []},
+        'AMBITION': {'values': []},
+        'SOCIAL': {'values': []},
+        'INTELLECT': {'values': []},
+        'DISCIPLINE': {'values': []},
+        'MENTAL': {'values': []}
+    }
+    
+    for category in categories:
+        for i in range(14):
+            date = datetime.utcnow() - timedelta(days=13 - i)
+            
+            # Total tasks in this category
+            total_tasks = Task.query.filter(
+                Task.user_id == user_id,
+                Task.category == category,
+                Task.start_date <= date,
+                Task.start_date + db.func.cast(Task.repeat_days, db.Integer) >= date
+            ).count()
+            
+            # Completed tasks on this date
+            completed_tasks = db.session.query(Completion)\
+                .join(Task)\
+                .filter(
+                    Task.user_id == user_id,
+                    Task.category == category,
+                    db.func.date(Completion.date) == date.date(),
+                    Completion.completed == True
+                )\
+                .count()
+            
+            percentage = (completed_tasks / total_tasks * 100) if total_tasks > 0 else 0
+            trend_data[category]['values'].append(round(percentage))
+    
+    return trend_data
+
+def get_task_history(user_id, limit=10):
+    # Get recent task completions/misses
+    history = []
+    
+    completions = db.session.query(Task.title, Completion.date, Completion.completed)\
+        .join(Task)\
+        .filter(Task.user_id == user_id)\
+        .order_by(Completion.date.desc())\
+        .limit(limit)\
+        .all()
+    
+    for title, date, completed in completions:
+        history.append({
+            'task_name': title,
+            'date': date.strftime('%b %d, %Y'),
+            'completed': completed
+        })
+    
+    return history
 
 if __name__ == '__main__':
     app.run(debug=True)   
