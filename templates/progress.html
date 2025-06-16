@@ -3,10 +3,15 @@
 {% block scripts %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+<script src="{{ url_for('static', filename='js/progress.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const categoryStats = {{ category_stats|tojson }};
-        initRadarChart(categoryStats);
+        const progressData = {
+            categoryStats: {{ category_stats|tojson }},
+            trendData: {{ trend_data|tojson }},
+            taskHistory: {{ task_history|tojson }}
+        };
+        initProgressCharts(progressData);
     });
 </script>
 {% endblock %}
@@ -15,20 +20,52 @@
 <div class="progress-container">
     <h1>Your Warrior Progress</h1>
     
-    <div class="radar-chart-container">
-        <canvas id="radarChart"></canvas>
+    <div class="time-selector">
+        <button class="btn time-btn active" data-period="week">This Week</button>
+        <button class="btn time-btn" data-period="month">This Month</button>
+        <button class="btn time-btn" data-period="all">All Time</button>
+    </div>
+    
+    <div class="chart-section">
+        <div class="radar-chart-container">
+            <canvas id="radarChart"></canvas>
+        </div>
+        <div class="line-chart-container">
+            <canvas id="trendChart"></canvas>
+        </div>
     </div>
     
     <div class="category-stats">
-        {% for category, percentage in category_stats.items() %}
+        {% for category, stats in category_stats.items() %}
             <div class="stat-item {{ category.lower() }}">
-                <div class="stat-category">{{ category }}</div>
+                <div class="stat-header">
+                    <div class="stat-category">{{ category }}</div>
+                    <div class="stat-percentage">{{ stats.percentage }}%</div>
+                </div>
+                <div class="stat-details">
+                    <div class="stat-completed">{{ stats.completed }}/{{ stats.total }} completed</div>
+                    <div class="stat-streak">Current streak: {{ stats.streak }} days</div>
+                </div>
                 <div class="stat-bar">
-                    <div class="bar-fill" style="width: {{ percentage }}%;"></div>
-                    <span class="stat-percentage">{{ percentage }}%</span>
+                    <div class="bar-fill" style="width: {{ stats.percentage }}%;"></div>
                 </div>
             </div>
         {% endfor %}
+    </div>
+    
+    <div class="task-history">
+        <h3>Recent Activity</h3>
+        <div class="history-items">
+            {% for history in task_history %}
+                <div class="history-item {% if history.completed %}completed{% else %}missed{% endif %}">
+                    <div class="history-date">{{ history.date }}</div>
+                    <div class="history-task">{{ history.task_name }}</div>
+                    <div class="history-status">
+                        {% if history.completed %}✓ Completed{% else %}✗ Missed{% endif %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
     
     <div class="progress-actions">

@@ -3,21 +3,22 @@
 {% block content %}
 <div class="dashboard">
     <div class="date-header">
-        <h1>{{ now.strftime('%a.%m.%d').upper() }} [THE WARRIOR]</h1>
-        <div class="calendar">
-            <!-- Calendar grid would be implemented here -->
-            <!-- This is a simplified version -->
-            <div class="calendar-header">
-                {% for day in ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'] %}
-                    <div>{{ day }}</div>
-                {% endfor %}
-            </div>
-            <div class="calendar-days">
-                {% for day in range(1, 32) %}
-                    <div {% if day == now.day %}class="today"{% endif %}>{{ day }}</div>
-                {% endfor %}
-            </div>
+    <h1>{{ now.strftime('%a.%m.%d').upper() }} [THE WARRIOR]</h1>
+    <div class="calendar">
+        <!-- Calendar grid would be implemented here -->
+        <!-- This is a simplified version -->
+        <div class="calendar-header">
+            {% for day in ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'] %}
+                <div>{{ day }}</div>
+            {% endfor %}
         </div>
+        <div class="calendar-days">
+            {% for day in range(1, 32) %}
+                <div {% if day == now.day %}class="today"{% endif %}>{{ day }}</div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
     </div>
 
     <div class="daily-tasks">

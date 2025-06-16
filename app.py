@@ -78,16 +78,19 @@ def dashboard():
     user_id = session['user_id']
     today = datetime.utcnow().date()
     
-    # Get all active tasks (where start_date + repeat_days is in future)
-    tasks = Task.query.filter(
-        Task.user_id == user_id,
-        Task.start_date <= today,
-        Task.start_date + timedelta(days=Task.repeat_days) >= today
-    ).all()
+    # Get all tasks for the user
+    all_tasks = Task.query.filter(Task.user_id == user_id).all()
+    
+    # Filter tasks that are active today (start_date <= today <= start_date + repeat_days)
+    active_tasks = []
+    for task in all_tasks:
+        end_date = task.start_date + timedelta(days=task.repeat_days)
+        if task.start_date.date() <= today <= end_date.date():
+            active_tasks.append(task)
     
     # Check completion status for today
     today_completions = {}
-    for task in tasks:
+    for task in active_tasks:
         completion = Completion.query.filter(
             Completion.task_id == task.id,
             Completion.user_id == user_id,
@@ -96,7 +99,10 @@ def dashboard():
         
         today_completions[task.id] = completion.completed if completion else False
     
-    return render_template('dashboard.html', tasks=tasks, today_completions=today_completions)
+    # Get current date for display
+    now = datetime.utcnow()
+    
+    return render_template('dashboard.html', tasks=active_tasks, today_completions=today_completions, now=now)
 
 @app.route('/add_task', methods=['GET', 'POST'])
 def add_task():
