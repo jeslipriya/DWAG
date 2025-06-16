@@ -1,0 +1,3 @@
+# ignore the database 
+instance/
+dwag.db
