@@ -6,12 +6,16 @@
 <script src="{{ url_for('static', filename='js/progress.js') }}"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const progressData = {
-            categoryStats: {{ category_stats|tojson }},
-            trendData: {{ trend_data|tojson }},
-            taskHistory: {{ task_history|tojson }}
-        };
-        initProgressCharts(progressData);
+        try {
+            const progressData = {
+                categoryStats: JSON.parse('{{ category_stats|tojson|safe }}'),
+                trendData: JSON.parse('{{ trend_data|tojson|safe }}'),
+                taskHistory: JSON.parse('{{ task_history|tojson|safe }}')
+            };
+            initProgressCharts(progressData);
+        } catch (error) {
+            console.error('Error parsing progress data:', error);
+        }
     });
 </script>
 {% endblock %}
@@ -20,9 +24,9 @@
 <div class="progress-container">
     <h1>Your Warrior Progress</h1>
     
-        <div class="radar-chart-container">
-            <canvas id="radarChart"></canvas>
-        </div>
+    <div class="radar-chart-container">
+        <canvas id="radarChart"></canvas>
+    </div>
     
     <div class="category-stats">
         {% for category, stats in category_stats.items() %}

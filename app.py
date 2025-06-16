@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from models import db, User, Task, Completion
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -205,9 +205,9 @@ def progress():
     
     return render_template(
         'progress.html',
-        category_stats=category_stats,
-        trend_data=trend_data,
-        task_history=task_history
+        category_stats=jsonify(category_stats).get_json(),
+        trend_data=jsonify(trend_data).get_json(),
+        task_history=jsonify(task_history).get_json()
     )
 
 def calculate_streak(user_id, category):
