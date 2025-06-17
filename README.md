@@ -31,7 +31,7 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
         │   ├── js/  
         │   │   ├── chart.js      # Chart rendering & dynamic interactions  
         │       ├── script.js
-        │   
+        │       └── progress.js
         │  
         ├── /templates/           # HTML templates    
         │   ├── base.html         # Base template (navbar, footer)  
