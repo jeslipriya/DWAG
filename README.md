@@ -4,14 +4,14 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 
 ## 🚀 Features
 
-- 🔐 User Registration & Login
-- 📝 Add tasks by category (PHYSICAL, AMBITION, etc.)
-- 🔁 Set task repeat duration (daily streak system)
-- ✅ Mark tasks as completed
-- 📈 Visual progress graphs (Radar + Line chart)
-- 🕓 Track your habit streaks and completion history
-- 📊 Category-wise analytics and daily trends
-- 💾 SQLite database with SQLAlchemy ORM
+- User Registration & Login
+- Add tasks by category (PHYSICAL, AMBITION, etc.)
+- Set task repeat duration (daily streak system)
+- Mark tasks as completed
+- Visual progress graphs (Radar + Line chart)
+- Track your habit streaks and completion history
+- Category-wise analytics and daily trends
+- SQLite database with SQLAlchemy ORM
 
 ## 🛠️ Tech Stack
 
