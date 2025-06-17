@@ -23,29 +23,29 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 ## 📁 Project Structure
 
 ```
-/DWAG/  
-│  
-├── /static/              # Static files (CSS, JS, images)  
-│   ├── css/  
-│   │   └── style.css     # Custom styles  (dark theme) 
-│   ├── js/  
-│   │   └── script.js     # Chart rendering & dynamic interactions  
-│   └── images/           # Logos, icons, etc.  
-│  
-├── /templates/           # HTML templates    
-│   ├── base.html         # Base template (navbar, footer)  
-│   ├── dashboard.html
-│   ├── register.html
-│   ├── graph.html        # Spider chart
-│   ├── login.html
-│   ├── index.html        # Homepage (goal dashboard)  
-│   ├── add_goal.html     # Form to add a new goal  
-│   └── progress.html     # Progress visualization (spider graph)  
-│  
-├── app.py                # Flask backend (routes & logic)  
-├── models.py             # Database models (SQLAlchemy)  
-├── requirements.txt      # Python dependencies  
-└── README.md             # Project documentation  
+        /DWAG/  
+        │  
+        ├── /static/              # Static files (CSS, JS, images)  
+        │   ├── css/  
+        │   │   └── style.css     # Custom styles  (dark theme) 
+        │   ├── js/  
+        │   │   └── script.js     # Chart rendering & dynamic interactions  
+        │   └── images/           # Logos, icons, etc.  
+        │  
+        ├── /templates/           # HTML templates    
+        │   ├── base.html         # Base template (navbar, footer)  
+        │   ├── dashboard.html
+        │   ├── register.html
+        │   ├── graph.html        # Spider chart
+        │   ├── login.html
+        │   ├── index.html        # Homepage (goal dashboard)  
+        │   ├── add_goal.html     # Form to add a new goal  
+        │   └── progress.html     # Progress visualization (spider graph)  
+        │  
+        ├── app.py                # Flask backend (routes & logic)  
+        ├── models.py             # Database models (SQLAlchemy)  
+        ├── requirements.txt      # Python dependencies  
+        └── README.md             # Project documentation  
 
 ```
 
