@@ -1,4 +1,4 @@
-# DWAG (Do With A Goal) 💥
+# DWAG (Do With A Goal) 
 
 DWAG is a full-stack productivity tracker that helps users build better habits through categorized tasks, daily repetition, visual progress, and personal accountability. It’s a life-transforming planner built with Flask, SQLAlchemy, and Chart.js!
 
