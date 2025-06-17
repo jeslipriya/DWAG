@@ -35,11 +35,9 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
         │  
         ├── /templates/           # HTML templates    
         │   ├── base.html         # Base template (navbar, footer)  
-        │   ├── dashboard.html
+        │   ├── dashboard.html    # Homepage (goal dashboard)  
         │   ├── register.html
-        │   ├── graph.html        # Spider chart
-        │   ├── login.html
-        │   ├── index.html        # Homepage (goal dashboard)  
+        │   ├── login.html        
         │   ├── add_goal.html     # Form to add a new goal  
         │   └── progress.html     # Progress visualization (spider graph)  
         │  
