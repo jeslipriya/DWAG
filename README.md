@@ -29,8 +29,9 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
         │   ├── css/  
         │   │   └── style.css     # Custom styles  (dark theme) 
         │   ├── js/  
-        │   │   └── script.js     # Chart rendering & dynamic interactions  
-        │   └── images/           # Logos, icons, etc.  
+        │   │   ├── chart.js      # Chart rendering & dynamic interactions  
+        │       ├── script.js
+        │   
         │  
         ├── /templates/           # HTML templates    
         │   ├── base.html         # Base template (navbar, footer)  
