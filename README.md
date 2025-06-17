@@ -90,6 +90,8 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 - Premium features (gamification, insights)
 - API integration for external habits (e.g., Fitbit)
 
+
+
 > “Discipline is doing what needs to be done, even when you don’t feel like doing it.” — DWAG Philosophy 
 
 
