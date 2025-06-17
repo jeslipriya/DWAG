@@ -91,4 +91,4 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 
 ---
 
-Let me know if you want a [logo design](f), [animated walkthrough gif](f), or a [requirements.txt generator](f) too!
+Open to collaboration — contributions to improve this project are always welcome!
