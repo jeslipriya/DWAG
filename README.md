@@ -16,7 +16,7 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 ## 🛠️ Tech Stack
 
 - **Backend:** Flask, SQLAlchemy, Werkzeug
-- **Frontend:** HTML5, CSS3, JavaScript, Chart.js
+- **Frontend:** HTML5, CSS3, JavaScript
 - **Database:** SQLite
 - **Authentication:** Flask Sessions
 
@@ -29,7 +29,8 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
         │   ├── css/  
         │   │   └── style.css     # Custom styles  (dark theme) 
         │   ├── js/  
-        │   │   └── script.js     # Chart rendering & dynamic interactions  
+        │   │   ├── script.js     # Chart rendering & dynamic interactions
+                ├── chart.js  
         │   └── images/           # Logos, icons, etc.  
         │  
         ├── /templates/           # HTML templates    
