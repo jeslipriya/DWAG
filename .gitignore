@@ -1,2 +1,5 @@
+# python cache file
 __pycache__/
+
+# database
 instance/dwag.db
