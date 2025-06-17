@@ -1,3 +1,2 @@
-# ignore the database 
-instance/
-dwag.db
+__pycache__/
+instance/dwag.db
