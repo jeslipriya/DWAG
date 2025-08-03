@@ -2,7 +2,7 @@
 
 DWAG is a full-stack productivity tracker that helps users build better habits through categorized tasks, daily repetition, visual progress, and personal accountability. It’s a life-transforming planner built with Flask, SQLAlchemy, and Chart.js!
 
-## 🚀 Features
+## Features
 
 - User Registration & Login
 - Add tasks by category (PHYSICAL, AMBITION, etc.)
@@ -13,14 +13,14 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 - Category-wise analytics and daily trends
 - SQLite database with SQLAlchemy ORM
 
-## 🛠️ Tech Stack
+## Tech Stack
 
-- **Backend:** Flask, SQLAlchemy, Werkzeug
+- **Backend:** Flask, Werkzeug
 - **Frontend:** HTML5, CSS3, JavaScript
-- **Database:** SQLite
+- **Database:** SQLAlchemy
 - **Authentication:** Flask Sessions
 
-## 📁 Project Structure
+## Project Structure
 
 ```
         /DWAG/  
@@ -30,15 +30,15 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
         │   │   └── style.css     # Custom styles  (dark theme) 
         │   └── js/  
         │       ├── chart.js      # Chart rendering & dynamic interactions  
-        │       ├── script.js
-        │       └── progress.js
+        │       ├── script.js     # For smooth animation
+        │       └── progress.js   # For progress bar
         │  
         ├── /templates/           # HTML templates    
         │   ├── base.html         # Base template (navbar, footer)  
         │   ├── dashboard.html    # Homepage (goal dashboard)  
-        │   ├── register.html
-        │   ├── login.html        
-        │   ├── add_goal.html     # Form to add a new goal  
+        │   ├── register.html     # For register page
+        │   ├── login.html        # For Login page
+        │   ├── add_task.html     # Form to add a new goal  
         │   └── progress.html     # Progress visualization (spider graph)  
         │  
         ├── app.py                # Flask backend (routes & logic)  
@@ -49,7 +49,7 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 ```
 
 
-## 📌 Installation
+## Installation
 
 1. **Clone this repo:**
     ```bash
@@ -57,7 +57,7 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
     cd dwag
     ```
 
-2. **Navugate to the Project Directory:**
+2. **Navigate to the Project Directory:**
     ```
     cd DWAG
     ```
@@ -82,7 +82,7 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
     http://127.0.0.1:5000/
     ```
 
-## 🧠 Future Improvements
+## Future Improvements
 
 - Add notifications/reminders
 - Make mobile responsive
