@@ -39,7 +39,7 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
         │   ├── register.html     # For register page
         │   ├── login.html        # For Login page
         │   ├── add_task.html     # Form to add a new goal  
-        │   └── progress.html     # Progress visualization (spider graph)  
+        │   └── progress.j2       # Progress visualization (spider graph)  
         │  
         ├── app.py                # Flask backend (routes & logic)  
         ├── models.py             # Database models (SQLAlchemy)  
