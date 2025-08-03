@@ -54,7 +54,6 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 1. **Clone this repo:**
     ```bash
     git clone https://github.com/your-username/dwag.git
-    cd dwag
     ```
 
 2. **Navigate to the Project Directory:**
