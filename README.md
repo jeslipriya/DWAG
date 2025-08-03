@@ -92,9 +92,9 @@ DWAG is a full-stack productivity tracker that helps users build better habits t
 
 
 
-> “Discipline is doing what needs to be done, even when you don’t feel like doing it.” — DWAG Philosophy 
+> “Discipline is doing what needs to be done, even when you don’t feel like doing it.” - DWAG Philosophy 
 
 
 ---
 
-Open to collaboration — contributions to improve this project are always welcome!
+Open to collaboration - contributions to improve this project are always welcome!
