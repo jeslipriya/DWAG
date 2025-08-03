@@ -47,7 +47,7 @@
     </div>
     
     <div class="task-history">
-        <h3>Recent Activity</h3>
+        <h3>Recent Activity</h3> <br><br>
         <div class="history-items">
             {% for history in task_history %}
                 <div class="history-item {% if history.completed %}completed{% else %}missed{% endif %}">
@@ -60,7 +60,7 @@
             {% endfor %}
         </div>
     </div>
-    
+    <br><br>
     <div class="progress-actions">
         <a href="{{ url_for('dashboard') }}" class="btn">Back to Dashboard</a>
     </div>
